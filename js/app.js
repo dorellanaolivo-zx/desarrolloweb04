@@ -3,7 +3,8 @@ var Calculadora = {
   tecla: document.getElementsByClassName('tecla'),
   display : document.getElementById('display'),
   num1 : 0,
-  op: "",
+  oper: "",
+  resp: "",
 
   pulsa: function (tecla)
   {
@@ -24,27 +25,28 @@ var Calculadora = {
     }
     else if (tecla.alt == "por" || tecla.alt == "dividido" || tecla.alt == "mas" || tecla.alt == "menos") {
       num1 = display.textContent;
-      op = tecla.alt;
+      oper = tecla.alt;
       display.textContent = "0";
     }
     else if (tecla.alt == "igual") {
-      switch (op)
+      switch (oper)
       {
         case "mas":
-          display.textContent = num1 + display.textContent;
+          resp = Number(num1) + Number(display.textContent);
           break;
         case "menos":
-          display.textContent = num1 - display.textContent;
+          resp = Number(num1) - Number(display.textContent);
           break;
         case "por":
-          display.textContent = num1 * display.textContent;
+          resp = num1 * display.textContent;
           break;
         case "dividido":
-          display.textContent = num1 / display.textContent;
+          resp = num1 / display.textContent;
           break;
         default:
           break;
       }
+      display.textContent = resp.toString().substring(0, 8);
     }
   },
 
