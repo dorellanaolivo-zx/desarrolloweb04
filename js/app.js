@@ -2,35 +2,50 @@ var Calculadora = {
 
   tecla: document.getElementsByClassName('tecla'),
   display : document.getElementById('display'),
+  num1 : 0,
+  op: "",
 
   pulsa: function (tecla)
   {
     tecla.style.padding = '2px';
     setTimeout(function () {tecla.style.padding = '0px';}, 50);
 
-    if (!isNaN(tecla.alt) && display.textContent.length < 8) {
+    if (!isNaN(tecla.alt) && display.textContent.replace("-","").replace(".","").length < 8) {
       if (display.textContent.length == 1 && display.textContent == "0")
         display.textContent = tecla.alt;
       else
         display.textContent += tecla.alt;
     }
-    else if (tecla.alt == "punto" && display.textContent.length < 8 && display.textContent.indexOf(".") == -1) {
-      display.textContent += "."
+    else if (tecla.alt == "punto" && display.textContent.length < 8 && display.textContent.indexOf(".") == -1) display.textContent += "."
+    else if (tecla.alt == "On") display.textContent = "0";
+    else if (tecla.alt == "signo" && display.textContent != "0") {
+        if (display.textContent.indexOf("-") == -1) display.textContent = "-" + display.textContent;
+        else display.textContent = display.textContent.replace("-","")
     }
-
-    if (tecla.alt == "On") {
+    else if (tecla.alt == "por" || tecla.alt == "dividido" || tecla.alt == "mas" || tecla.alt == "menos") {
+      num1 = display.textContent;
+      op = tecla.alt;
       display.textContent = "0";
     }
-
-    if (tecla.alt == "signo" && display.textContent != "0") {
-        if (display.textContent.indexOf("-") == -1)
-          display.textContent = "-" + display.textContent;
-        else
-          display.textContent = display.textContent.replace("-","")
+    else if (tecla.alt == "igual") {
+      switch (op)
+      {
+        case "mas":
+          display.textContent = num1 + display.textContent;
+          break;
+        case "menos":
+          display.textContent = num1 - display.textContent;
+          break;
+        case "por":
+          display.textContent = num1 * display.textContent;
+          break;
+        case "dividido":
+          display.textContent = num1 / display.textContent;
+          break;
+        default:
+          break;
+      }
     }
-
-
-
   },
 
   inicializar: function () {
